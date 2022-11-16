@@ -20,3 +20,9 @@
   max-width: 150px;
   max-height: 150px;
 }
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 100vw;
+  }
+}

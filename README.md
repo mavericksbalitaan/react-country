@@ -1,7 +1,5 @@
 ![](https://img.shields.io/badge/React-lightblue)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/387261dd-52b5-4855-9a29-5f319d362fb5/deploy-status)](https://app.netlify.com/sites/app-country-app/deploys)
-
 ![app-screenshot3](https://user-images.githubusercontent.com/98527559/201638175-a1a57fb1-ce7c-4114-8f66-88f3133d26a3.png)
 
 # CountryApp
@@ -25,7 +23,7 @@ Screenshots can be found in the repository.
 
 ## Live Demo 🔗
 
-Check the live demo [netlify](https://app-country-app.netlify.app/)👈
+Check the live demo [here](https://country-app-delta.vercel.app/))👈
 
 ## Getting Started
 

@@ -2,14 +2,17 @@ import '../stylesheets/details.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import '../stylesheets/loader.scss';
+import Loader from '../utils/Loader';
 
 function Details() {
+  Loader();
+
   const params = useParams();
   const [arr, setArr] = useState(null);
   const [curr, setCurr] = useState(null);
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
+  // const [lat, setLat] = useState(null);
+  // const [lng, setLng] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -19,26 +22,17 @@ function Details() {
       const data = await response.json();
       setArr(data);
       setCurr(data[0].currencies);
-      setLat(data[0].latlng[0]);
-      setLng(data[0].latlng[1]);
+      // setLat(data[0].latlng[0]);
+      // setLng(data[0].latlng[1]);
     }
     fetchData();
   }, [params.country]);
 
-  const containerStyle = {
-    width: '250px',
-    height: '250px',
-  };
-
-  const ApiKey = process.env.REACT_APP_API_KEY;
-
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: ApiKey,
-  });
-
   return (
     <>
+      <div className="loader-container">
+        <div className="loader" />
+      </div>
       <div className="details-container">
         <div className="details-header">
           <Link to="/countries">
@@ -107,17 +101,6 @@ function Details() {
                   Driving side: &emsp;
                   {arr[0].car.side}
                 </h4>
-              </div>
-              <div>
-                {isLoaded ? (
-                  <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={{ lat, lng }}
-                    zoom={5}
-                  />
-                ) : (
-                  <h5>Loading map...</h5>
-                )}
               </div>
             </div>
           </>

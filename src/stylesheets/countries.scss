@@ -17,6 +17,12 @@ a {
   width: 100vw;
 }
 
+.searchBar {
+  position: absolute;
+  top: 13px;
+  right: 12px;
+}
+
 @media screen and (max-width: 768px) {
   .countries-container {
     display: grid;

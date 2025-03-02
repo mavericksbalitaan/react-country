@@ -1,27 +1,57 @@
+import { Fragment, useRef, useState } from 'react';
 import '../stylesheets/countries.scss';
+import { useQuery } from '@tanstack/react-query';
 import { nanoid } from 'nanoid';
 import Cards from './Cards';
 import Navbar from './Navbar';
-import useFetch from '../hooks/useFetch';
-import Loader from '../utils/Loader';
-import '../stylesheets/loader.scss';
+import ErrorBoundary from './ErrorBoundary';
 
 function Countries() {
-  Loader();
-  const arr = useFetch('https://restcountries.com/v3.1/all');
+  const formRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchApi = async () => {
+    const response = await fetch('https://restcountries.com/v3.1/all');
+    return response.json();
+  };
+
+  const { data, isPending } = useQuery({
+    queryKey: ['countries'],
+    queryFn: fetchApi,
+  });
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(formRef.current);
+    setSearchQuery(formData.get('country'));
+  };
+
+  const filteredCountries = data?.filter((country) => {
+    const lowerCase = country.name.common.toLowerCase();
+    return lowerCase.startsWith(searchQuery.toLowerCase());
+  });
 
   return (
     <>
-      <div className="loader-container">
-        <div className="loader" />
-      </div>
       <div className="fixed">
         <Navbar />
+        <form className="searchBar" onSubmit={handleSubmit} ref={formRef}>
+          <input type="text" name="country" placeholder="Search country..." />
+          <input type="submit" value="Search" />
+        </form>
       </div>
       <div className="countries-container">
-        {arr && (
-          arr.map((country) => <Cards key={nanoid()} country={country} />)
-        )}
+        {filteredCountries?.map((country) => (
+          <Fragment key={country.namae}>
+            <ErrorBoundary fallback="Something went wrong...">
+              <Cards key={nanoid()} country={country} />
+            </ErrorBoundary>
+          </Fragment>
+        ))}
       </div>
     </>
   );

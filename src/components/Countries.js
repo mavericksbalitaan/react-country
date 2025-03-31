@@ -35,18 +35,39 @@ function Countries() {
     return lowerCase.startsWith(searchQuery.toLowerCase());
   });
 
+  const debounce = (func, delay) => {
+    let timeoutId;
+    // eslint-disable-next-line
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  };
+
+  const handleInput = () => {
+    const formData = new FormData(formRef.current);
+    debounce(setSearchQuery(formData.get('country')), 300);
+  };
+
   return (
     <>
       <div className="fixed">
         <Navbar />
         <form className="searchBar" onSubmit={handleSubmit} ref={formRef}>
-          <input type="text" name="country" placeholder="Search country..." />
+          <input
+            type="text"
+            name="country"
+            onChange={handleInput}
+            placeholder="Search country..."
+          />
           <input type="submit" value="Search" />
         </form>
       </div>
       <div className="countries-container">
         {filteredCountries?.map((country) => (
-          <Fragment key={country.namae}>
+          <Fragment key={nanoid()}>
             <ErrorBoundary fallback="Something went wrong...">
               <Cards key={nanoid()} country={country} />
             </ErrorBoundary>

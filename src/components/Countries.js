@@ -11,7 +11,7 @@ function Countries() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchApi = async () => {
-    const response = await fetch('https://restcountries.com/v3.1/all');
+    const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,flag,flags');
     return response.json();
   };
 

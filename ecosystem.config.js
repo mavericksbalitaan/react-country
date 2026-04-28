@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'react-country',
       script: 'npx',
-      args: 'serve -s build -p 5007',
+      args: 'serve -s build -p 5005',
       env: {
         NODE_ENV: 'production',
       },
